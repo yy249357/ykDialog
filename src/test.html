@@ -93,8 +93,10 @@ window.onload = function(){
     		skin: 1,
     		maskClose: true,
     		content: "为了您的信息安全，请输入身份证号码进行身份验证",
-    		inputType: 'tel',
-    		placeholder: '请输入您的身份证号码',
+    		inputAttr: {
+    			type: "tel",
+    			placeholder: "请输入您的身份证号码",
+    		},
     		buttons: [
 	    		{
 	    			color: "green",
@@ -134,7 +136,7 @@ window.onload = function(){
 			width: '90vw',
 			skin: 2,
 			maskClose: true,
-			title: "确认是否删除自选股?",
+			title: "确认是否删除?",
 			buttons: [
 				{
 					color: "blue",
