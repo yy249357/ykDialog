@@ -104,7 +104,7 @@ ykDialog = dialog({
 })
 ```
 
-</br>
+
 API Document
 --------
 
