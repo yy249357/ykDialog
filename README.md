@@ -41,7 +41,7 @@ ykDialog = dialog({
             color: "blue",
             text: "取消",
             callback: function(){
-                return false
+                return true
             }
         },
         {
@@ -104,7 +104,7 @@ ykDialog = dialog({
 })
 ```
 
-
+</br>
 API Document
 --------
 
