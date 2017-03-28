@@ -23,11 +23,6 @@ button{
 <button class="btn-white">白色按钮</button>
 <script src="./js/ykDialog.js"></script>
 <script>
-var js = document.scripts,
-    script = js[js.length - 2],
-    jsPath = script.src;
-var path = jsPath.substring(0, jsPath.lastIndexOf("/") + 1)
-console.log(path)
 window.onload = function(){
 //确认框
 	document.querySelector('.icon-ok').addEventListener('click', function(){
@@ -125,7 +120,7 @@ window.onload = function(){
 			maskClose: true,
 			title: '天地无极',
 			content: '挑选股票、债券或基金是一个技术活，却不是一门需要精确的科学。这通常意味着凡事并不是多多益善，我们需要放过一些事实和数据。',
-			style: "",
+			style: '',
 			animate: true
 		})
 	})
@@ -142,7 +137,7 @@ window.onload = function(){
 					color: "blue",
 					text: "取消",
 					callback: function(){
-						return false
+						return true
 					}
 				},
 				{
