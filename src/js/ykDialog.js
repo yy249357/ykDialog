@@ -2,57 +2,61 @@
  * @Author: yankang
  * @Date:   2017-03-02 16:43:46
  * @Last Modified by:   yankang
- * @Last Modified time: 2017-03-27 14:07:12
+ * @Last Modified time: 2017-04-06 17:13:13
  */
 ;(function(window, document) {
 	'use strict';
+	var cancelCallback, confirmCallback
+	/**
+	 * @param    {String} el
+	 * @param    {Object} attr
+	 * @param    {Object} style
+	 * @param    {String} text
+	 * @return   {[type]}
+	 */
+	var _createEl = function(el, attr, style, text){
+		var dom = document.createElement(el)
+		if(attr){
+			for(var i in attr){
+				if(i == 'class'){dom.className = attr[i]}
+				else if(i == 'id'){dom.id = attr[i]}
+				else{
+					dom.setAttribute(i, attr[i])
+				}
+			}
+		}
+		if(style){
+			for(var i in style){
+				dom.style[i] = style[i]
+			}
+		}
+		if(text){
+			dom.appendChild(document.createTextNode(text))
+		}
+		return dom
+	}
+	var _deepCopy = function(obj1, obj2){
+		var obj2 = obj2 || {}
+		for(var i in obj1){
+			if(!obj1.hasOwnProperty(i)){
+				continue
+			}
+			if(typeof obj1[1] === 'object'){
+				obj2[i] = (obj[i].constructor === Array)? []: {}
+				_deepCopty(obj[i], obj[i])
+			}else{
+				obj2[i] = obj1[i]
+			}
+		}
+		return obj2
+	}
+	var _escapeHtml = function(str){
+		var div = document.createElement('div')
+		div.appendChild(document.createTextNode(str))
+		return div.innerHTML
+	}
 	var Dialog = function(config) {
 		var _this_ = this;
-		/**
-		 * [_createEl description]
-		 * @DateTime 2017-03-10T15:02:55+0800
-		 * @param    {String} el
-		 * @param    {Object} attr
-		 * @param    {Object} style
-		 * @param    {String} text
-		 * @return   {[type]}
-		 */
-		var _createEl = function(el, attr, style, text){
-			var dom = document.createElement(el)
-			if(attr){
-				for(var i in attr){
-					if(i == 'class'){dom.className = attr[i]}
-					else if(i == 'id'){dom.id = attr[i]}
-					else{
-						dom.setAttribute(i, attr[i])
-					}
-				}
-			}
-			if(style){
-				for(var i in style){
-					dom.style[i] = style[i]
-				}
-			}
-			if(text){
-				dom.appendChild(document.createTextNode(text))
-			}
-			return dom
-		}
-		var _deepCopy = function(obj1, obj2){
-			var obj2 = obj2 || {}
-			for(var i in obj1){
-				if(!obj1.hasOwnProperty(i)){
-					continue
-				}
-				if(typeof obj1[1] === 'object'){
-					obj2[i] = (obj[i].constructor === Array)? []: {}
-					_deepCopty(obj[i], obj[i])
-				}else{
-					obj2[i] = obj1[i]
-				}
-			}
-			return obj2
-		}
 		//默认参数配置
 		this.config = {
 			//按钮组
@@ -103,9 +107,13 @@
 		this.input = _createEl('input', {'class': 'dialog-input'})
 		this.winFooter = _createEl('div', {'class': 'dialog-footer'})
 		this.create()
-	};
+	}
+	var dialogClose = function() {
+		var mask = document.querySelector('div[class$="-dialog-container"]')
+		document.body.removeChild(mask)
+	}
 	//默认参数扩展
-	Dialog.zIndex = 10000;
+	Dialog.zIndex = 10000
 	Dialog.prototype = {
 		isParent: function(obj, parentObj) {
 			while (obj != undefined && obj != null && obj.tagName.toUpperCase() != 'BODY') {
@@ -172,7 +180,7 @@
 			} else {
 				//添加文本信息
 				if(config.title){
-					header.innerHTML = config.title
+					header.innerHTML = _escapeHtml(config.title)
 					win.appendChild(header)
 				}
 				if(config.icon){
@@ -186,7 +194,7 @@
 					}
 				}
 				if (config.content){
-					content.innerHTML = config.content
+					content.innerHTML = _escapeHtml(config.content)
 					win.appendChild(content)
 				}
 				if (config.msg){
@@ -220,7 +228,7 @@
 				//设置弹出框弹出多久关闭
 				if(config.delay && config.delay != 0) {
 					setTimeout(function(e) {
-						_this_.close()
+						dialogClose()
 						if (config.delayCallback){
 							config.delayCallback();
 						}
@@ -232,7 +240,7 @@
 				if(config.maskClose){
 					mask.addEventListener('click', function(e) {
 						if(e.target == mask || !_this_.isParent(e.target, mask)){
-							_this_.close()
+							dialogClose()
 						}
 					}, false)
 				}
@@ -240,31 +248,23 @@
 				body.appendChild(mask)
 			}
 		},
-		close: function() {
-			this.body.removeChild(this.mask)
-		},
 
 		createButtons: function(footer, buttons) {
 			var _this_ = this
 			for(var i=0; i<buttons.length; ++i){
 				var temp = buttons[i]
-				var btnText = temp.text;
 				var button = document.createElement('button')
-				button.className = temp.color
-				button.innerHTML = btnText
+				var btnType = temp.type? temp.type: (i==0 && 'cancel'|| 'confirm')
+				button.className = temp.color + ' ' + btnType
+				button.innerHTML = temp.text
 				if(temp.callback && typeof(temp.callback) === 'function'){
+					if(btnType == 'cancel'){cancelCallback = temp.callback}
+					if(btnType == 'confirm'){confirmCallback = temp.callback}
 					button.addEventListener('click', (function(i, button){
 						return function(){
 							var inputVal = _this_.input.value
-							var isClose
-							if(inputVal){
-								isClose = (buttons[i].callback)(inputVal)
-							}else{
-								isClose = (buttons[i].callback)()
-							}
-							if(isClose){
-								_this_.close()
-							}
+							inputVal && (buttons[i].callback)(inputVal) || (buttons[i].callback)()
+							dialogClose()
 						}
 					}(i, button)), false)
 				}
@@ -272,12 +272,37 @@
 			}
 		}
 	}
-
-	window.dialog = function(config) {
-		if(typeof Dialog.instance == 'object'){
-			return Dialog.instance
+	document.onkeydown = function(e){
+		e.target.blur
+		if(typeof e.stopPropagation === 'function'){
+			e.stopPropagation()
+			e.preventDefault()
+		}else if(window.event && window.event.hasOwnProperty('cancelBubble')){
+			window.event.cancelBubble = true
 		}
-		Dialog.instance = this;
-		return new Dialog(config)
+		var code = e.which || e.keyCode
+		var cancelBtn = document.querySelector('.dialog-footer .cancel')
+		var confirmBtn = document.querySelector('.dialog-footer .confirm')
+		if(cancelBtn || confirmBtn){
+			switch(code){
+				case 27:
+					cancelCallback && cancelCallback()
+					dialogClose()
+					break
+				case 13: confirmCallback && confirmCallback()
+					dialogClose()
+				 	break
+				default:
+			}
+		}
 	}
-})(window, document, undefined);
+	window.dialog = function(config) {
+		var result
+		// return result || (result = new Dialog(config))
+		// return function(){
+			result = new Dialog(config)
+			console.log(result)
+			return result
+		// }
+	}
+})(window, document, undefined)

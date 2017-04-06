@@ -26,7 +26,7 @@ ykDialog = dialog({
     animate: true
 })
 ```
-**白色皮肤带按钮**
+**白色皮肤按钮**
 
 ![页面加载中]( https://raw.githubusercontent.com/yy249357/project/master/screenshots/2.jpg)
 
@@ -41,14 +41,14 @@ ykDialog = dialog({
             color: "blue",
             text: "取消",
             callback: function(){
-                return true
+                console.log('取消')
             }
         },
         {
             color: "blue",
             text: "确定",
             callback: function(){
-                return true
+                console.log('确认')
             }
         }
     ],
@@ -75,14 +75,14 @@ ykDialog = dialog({
             color: "green",
             text: "取消",
             callback: function(){
-                return true
+                console.log('取消')
             }
         },
         {
             color: "red",
             text: "确定",
             callback: function(val){
-                return true
+                console.log('确认')
             }
         }
     ]
@@ -211,7 +211,7 @@ delayCallback: function(){
 
 **buttons: 按钮组**
 
-说明: buttons类型是数组, 数组成员是对象, 包括color按钮颜色、text按钮文本、callback按钮回调函数等, 其中callback返回值为true时点击按钮弹出窗关闭。
+说明: buttons类型是数组, 数组成员是对象, 包括color按钮颜色、text按钮文本、type按钮类型、callback按钮回调函数等。
 
 例:
 ```
@@ -219,15 +219,17 @@ buttons: [
     {
         color: "blue",
         text: "取消",
+        type: "cancel",
         callback: function(){
-            return true
+            console.log('取消')
         }
     },
     {
         color: "blue",
         text: "确定",
+        type: "confirm"
         callback: function(){
-            return true
+            console.log('确认')
         }
     }
 ]

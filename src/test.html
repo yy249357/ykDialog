@@ -96,15 +96,17 @@ window.onload = function(){
 	    		{
 	    			color: "green",
 	    			text: "取消",
+	    			type: "confirm",
 	    			callback: function(){
-	    				return true
+	    				console.log('取消')
 	    			}
     			},
 	    		{
 	    			color: "red",
 	    			text: "确定",
+	    			// type: "confirm",
 	    			callback: function(val){
-	    				return true
+	    				console.log('确认')
 	    			}
 	    		}
     		]
@@ -118,8 +120,8 @@ window.onload = function(){
 			width: '90vw',
 			skin: 2,
 			maskClose: true,
-			title: '天地无极',
-			content: '挑选股票、债券或基金是一个技术活，却不是一门需要精确的科学。这通常意味着凡事并不是多多益善，我们需要放过一些事实和数据。',
+			title: 'alert("天地无极")',
+			content: '<p>挑选股票、债券或基金是一个技术活，却不是一门需要精确的科学。这通常意味着凡事并不是多多益善，我们需要放过一些事实和数据。</p>',
 			style: '',
 			animate: true
 		})
