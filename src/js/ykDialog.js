@@ -2,7 +2,7 @@
  * @Author: yankang
  * @Date:   2017-03-02 16:43:46
  * @Last Modified by:   yankang
- * @Last Modified time: 2017-04-06 17:13:13
+ * @Last Modified time: 2017-04-06 17:45:41
  */
 ;(function(window, document) {
 	'use strict';
@@ -56,6 +56,9 @@
 		return div.innerHTML
 	}
 	var Dialog = function(config) {
+		if(Dialog.instance !== undefined){
+			return Dialog.instance
+		}
 		var _this_ = this;
 		//默认参数配置
 		this.config = {
@@ -107,10 +110,12 @@
 		this.input = _createEl('input', {'class': 'dialog-input'})
 		this.winFooter = _createEl('div', {'class': 'dialog-footer'})
 		this.create()
+		Dialog.instance = this
 	}
 	var dialogClose = function() {
 		var mask = document.querySelector('div[class$="-dialog-container"]')
 		document.body.removeChild(mask)
+		Dialog.instance = undefined
 	}
 	//默认参数扩展
 	Dialog.zIndex = 10000
@@ -273,7 +278,7 @@
 		}
 	}
 	document.onkeydown = function(e){
-		e.target.blur
+		e.target.blur()
 		if(typeof e.stopPropagation === 'function'){
 			e.stopPropagation()
 			e.preventDefault()
@@ -297,12 +302,6 @@
 		}
 	}
 	window.dialog = function(config) {
-		var result
-		// return result || (result = new Dialog(config))
-		// return function(){
-			result = new Dialog(config)
-			console.log(result)
-			return result
-		// }
+		new Dialog(config)
 	}
 })(window, document, undefined)

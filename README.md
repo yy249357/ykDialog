@@ -108,6 +108,8 @@ ykDialog = dialog({
 API Document
 --------
 
+说明: 一个页面内始终只有一个弹窗框
+
 **skin: 皮肤**
 
 说明: 1 白色   2黑色
