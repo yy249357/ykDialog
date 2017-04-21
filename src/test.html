@@ -23,6 +23,7 @@ button{
 <button class="btn-white">白色按钮</button>
 <script src="./js/ykDialog.js"></script>
 <script>
+var ykDialog
 window.onload = function(){
 //确认框
 	document.querySelector('.icon-ok').addEventListener('click', function(){
@@ -96,7 +97,7 @@ window.onload = function(){
 	    		{
 	    			color: "green",
 	    			text: "取消",
-	    			type: "confirm",
+	    			type: "cancel",
 	    			callback: function(){
 	    				console.log('取消')
 	    			}
@@ -104,7 +105,7 @@ window.onload = function(){
 	    		{
 	    			color: "red",
 	    			text: "确定",
-	    			// type: "confirm",
+	    			type: "confirm",
 	    			callback: function(val){
 	    				console.log('确认')
 	    			}
@@ -136,23 +137,32 @@ window.onload = function(){
 			title: "确认是否删除?",
 			buttons: [
 				{
-					color: "blue",
+					color: "red",
 					text: "取消",
+					type: "cancel",
 					callback: function(){
-						return true
+						console.log('取消')
 					}
 				},
 				{
 					color: "blue",
 					text: "确定",
+					type: "confirm",
 					callback: function(){
-						return true
+						console.log('确认')
 					}
 				}
 			],
 			animate: true
 		})
+		close()
 	})
+
+function close(){
+	var timer = setTimeout(function(){
+		ykDialog.close()
+	}, 2000)
+}
 </script>
 </body>
 </html>

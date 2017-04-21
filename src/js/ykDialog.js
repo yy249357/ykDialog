@@ -2,7 +2,7 @@
  * @Author: yankang
  * @Date:   2017-03-02 16:43:46
  * @Last Modified by:   yankang
- * @Last Modified time: 2017-04-06 17:45:41
+ * @Last Modified time: 2017-04-21 17:02:29
  */
 ;(function(window, document) {
 	'use strict';
@@ -114,12 +114,16 @@
 	}
 	var dialogClose = function() {
 		var mask = document.querySelector('div[class$="-dialog-container"]')
+		if(!mask)return
 		document.body.removeChild(mask)
 		Dialog.instance = undefined
 	}
 	//默认参数扩展
 	Dialog.zIndex = 10000
 	Dialog.prototype = {
+		close: function(){
+			dialogClose()
+		},
 		isParent: function(obj, parentObj) {
 			while (obj != undefined && obj != null && obj.tagName.toUpperCase() != 'BODY') {
 				if (obj == parentObj) {
@@ -272,6 +276,12 @@
 							dialogClose()
 						}
 					}(i, button)), false)
+				}else{
+					button.addEventListener('click', (function(i, button){
+						return function(){
+							dialogClose()
+						}
+					}(i, button)), false)
 				}
 				footer.appendChild(button)
 			}
@@ -302,6 +312,6 @@
 		}
 	}
 	window.dialog = function(config) {
-		new Dialog(config)
+		return new Dialog(config)
 	}
 })(window, document, undefined)
