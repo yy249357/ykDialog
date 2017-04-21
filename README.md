@@ -237,3 +237,16 @@ buttons: [
 ]
 ```
 
+**close(): 关闭弹窗**
+
+说明: 用做外部函数回调
+例: 
+```js
+var ykDialog = dialog({title: "今天是几号?"})
+function close(){
+    var timer = setInterval(function(){
+        ykDialog.close()
+    }, 2000)
+}
+```
+
