@@ -5,8 +5,13 @@ A popover javascript plug-in.
 
 Install
 -------
+方式一  
 
-* Clone the repo: `git clone https://github.com/yy249357/ykDialog.git`.
+* npm install ykdialog  
+ 
+方式二  
+
+* clone the repo: `git clone https://github.com/yy249357/ykDialog.git`.
 
 Example
 -----------
