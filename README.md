@@ -133,7 +133,7 @@ width: "auto"
 说明: "ok" 确定框, "loding" 加载框,  "bubble" 气泡框,  "warning" 警告框
 
 例:
-```
+```js
 icon: "ok"
 ```
 
@@ -142,14 +142,14 @@ icon: "ok"
 说明: 多少秒后自动关闭弹出框
 
 例:
-```
+```js
 delay: 1
 ```
 
 **title: 弹出窗标题**
 
 例:
-```
+```js
 title: "天地无极"
 ```
 
@@ -165,7 +165,7 @@ content: "挑选股票、债券或基金是一个技术活，却不是一门需�
 说明: 必须和content选项配合使用, 可以通过css自定义样式
 
 例:
-```
+```js
 style: "font-size: 20px;color: red; line-height:30px"
 ```
 
@@ -174,7 +174,7 @@ style: "font-size: 20px;color: red; line-height:30px"
 说明: 可以添加各种input属性, 如placeholder、type、maxlength等
 
 例:
-```
+```js
 inputAttr: {type: "text", maxlength: 10}
 ```
 
@@ -183,7 +183,7 @@ inputAttr: {type: "text", maxlength: 10}
 说明: 默认0.4
 
 例:
-```
+```js
 maskOpacity: .6
 ```
 
@@ -192,7 +192,7 @@ maskOpacity: .6
 说明: 默认不关闭
 
 例:
-```
+```js
 maskClose: true
 ```
 
@@ -205,7 +205,7 @@ maskClose: true
 **delayCallback: 弹出窗自动关闭后的回调函数**
 
 例:
-```
+```js
 delayCallback: function(){
     console.log('我是回调函数')
 }
@@ -216,7 +216,7 @@ delayCallback: function(){
 说明: buttons类型是数组, 数组成员是对象, 包括color按钮颜色、text按钮文本、type按钮类型、callback按钮回调函数等。
 
 例:
-```
+```js
 buttons: [
     {
         color: "blue",
